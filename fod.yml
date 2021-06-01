@@ -1,0 +1,45 @@
+variables:
+  FORTIFY_BUILD_ID: "DemoTest"
+  SSC_URL: "http://211.24.79.232:8080/ssc"
+  SCANCENTRAL_URL: "http://211.24.79.232:8081/scancentral-ctrl"
+  CITOKEN: "4f63e2db-0117-45b2-bf1a-135279f19c3e"
+  SSC_APPLICATION: "Demo"
+  SSC_VERSION: "3"
+ 
+PreTask:
+  stage: .pre
+  tags:
+    - runner-windows
+  script:
+    - whoami
+    - sourceanalyzer -v
+    # Use SSC as central repository for rulepacks
+    - fortifyupdate -url %SSC_URL% -acceptKey -acceptSSLCertificate 
+ 
+Build:
+  stage: build
+  tags:
+    - runner-windows
+  script:
+    - echo "Not using msbuild..."
+ 
+FortifyClean:
+  stage: test
+  tags:
+    - runner-windows
+  script:
+    - sourceanalyzer -b %FORTIFY_BUILD_ID% -clean
+ 
+FortifyTranslate:
+  stage: test
+  tags:
+    - runner-windows
+  script:
+    - sourceanalyzer -b %FORTIFY_BUILD_ID% -verbose -debug -logfile trans.log .
+ 
+FortifyScanCentral:
+  stage: test
+  tags:
+    - runner-windows
+  script:
+    - scancentral -url %SCANCENTRAL_URL% start -b %FORTIFY_BUILD_ID% -upload -uptoken %CITOKEN% -application %SSC_APPLICATION% -version %SSC_VERSION% -scan
