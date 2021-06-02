@@ -37,7 +37,8 @@ jobs:
         uses: fortify/gha-setup-scancentral-client@v1.1.1   
         with:
           version: 20.2.0                                      # Optional as 20.2.0 is the default
-          client-auth-token: ${{ secrets.CLIENT_AUTH_TOKEN }}  # Optional, but required if ScanCentral Controller requires client authentication
+          client-auth-token: CHANGEME321!
+          # Optional, but required if ScanCentral Controller requires client authentication
 
       ### Run Fortify ScanCentral Client ###
       # Update BUILD_OPTS based on the ScanCentral Client documentation and your project's included tech stack(s).
