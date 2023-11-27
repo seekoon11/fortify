@@ -36,7 +36,7 @@ jobs:
       - name: Download Fortify ScanCentral Client
         uses: fortify/gha-setup-scancentral-client@v1.1.1   
         with:
-          version: 20.2.0                                      # Optional as 20.2.0 is the default
+          version: 23.1                                      # Optional as 20.2.0 is the default
           client-auth-token: CHANGEME321!
           # Optional, but required if ScanCentral Controller requires client authentication
 
